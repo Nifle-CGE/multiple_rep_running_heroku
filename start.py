@@ -12,7 +12,9 @@ else:
     raise Exception("OS not compatible")
 
 def repo_thread(repo_name:str, dyno:str):
-    os.system("rm -r downloads/" + repo_name)
+    if os.path.isdir("downloads/" + repo_name):
+        os.system("rm -r downloads/" + repo_name)
+        
     repo_url = os.environ["GITHUB_URL_START"] + repo_name
     os.system(FETCH_PATH + " --repo " + repo_url + " --github-oauth-token " + os.environ["GITHUB_PERSONAL_ACCESS_TOKEN"] + " --branch master downloads/" + repo_name)
 
