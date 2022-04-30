@@ -13,13 +13,18 @@ else:
     raise Exception("OS not compatible")
 
 def repo_thread(repo_name:str, dyno:str):
-    if os.path.isdir("downloads/" + repo_name):
-        os.system("rm -r downloads/" + repo_name)
+    app_path = "downloads/" + repo_name
+    if os.path.isdir(app_path):
+        os.system("rm -r " + app_path)
 
     repo_url = os.environ["GITHUB_URL_START"] + repo_name
     os.system(FETCH_PATH + " --repo " + repo_url + " --github-oauth-token " + os.environ["GITHUB_PERSONAL_ACCESS_TOKEN"] + " --branch master downloads/" + repo_name)
 
-    with open("downloads/" + repo_name + "/Procfile", "r", encoding="utf-8") as f:
+    # Install app requirements if exists
+    if os.path.isfile(app_path + "/requirements.txt"):
+        os.system("pip install -r " + app_path + "/requirements.txt")
+
+    with open(app_path + "/Procfile", "r", encoding="utf-8") as f:
         data =  f.read().splitlines()
 
     procfile = {}
