@@ -1,0 +1,3 @@
+# Lines starting with "#" will be ignored
+# This file has to include the repos you want to run under this format
+repo_name : dyno_type
