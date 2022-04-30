@@ -6,6 +6,7 @@ if sys.platform.startswith("win32"):
     DEL_COMMAND = "cd rd downloads/" #TODO: rendre ça compatible avec windows
 elif sys.platform.startswith("linux"):
     FETCH_PATH = "fetch_bin/fetch_linux_amd64"
+    os.system("chmod a+x " + FETCH_PATH)
 elif sys.platform.startswith("darwin"):
     FETCH_PATH = "fetch_bin/fetch_darwin_amd64"
 else:
@@ -14,7 +15,7 @@ else:
 def repo_thread(repo_name:str, dyno:str):
     if os.path.isdir("downloads/" + repo_name):
         os.system("rm -r downloads/" + repo_name)
-        
+
     repo_url = os.environ["GITHUB_URL_START"] + repo_name
     os.system(FETCH_PATH + " --repo " + repo_url + " --github-oauth-token " + os.environ["GITHUB_PERSONAL_ACCESS_TOKEN"] + " --branch master downloads/" + repo_name)
 
